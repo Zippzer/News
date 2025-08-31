@@ -1,38 +1,39 @@
 from sqlalchemy.orm import Session
 from models import POST
-from schemas import Posts,UpdatePost
+from fastapi import HTTPException
 
 
-def create_post(db:Session,post:Posts):
-    db_post = POST(**post.dict())
+def create_post(db: Session, post_data:dict):
+    db_post = POST(**post_data)
     db.add(db_post)
     db.commit()
     db.refresh(db_post)
     return db_post
 
 
-def get_all_post(db:Session):
+def get_all_post(db: Session):
     return db.query(POST).all()
 
 
-def get_one_post(db:Session,post_id:int):
+def get_one_post(db:Session, post_id:int):
     return db.query(POST).filter(POST.id == post_id).first()
 
 
-def update_post(db:Session,post_id:int,post:UpdatePost):
+def update_post(db:Session, post_id:int, post_data:dict):
     db_item = get_one_post(db,post_id)
-    if db_item  is None:
+    if db_item is None:
         return None
-    for key, value in post.dict(exclude_unset=True).items():
+    for key, value in post_data.items():
         setattr(db_item, key, value)
     db.commit()
+    db.refresh(db_item)
     return db_item
 
 
-def delete_post(db:Session,post_id:int):
+def delete_post(db: Session, post_id: int):
     post = db.query(POST).filter(POST.id == post_id).first()
     if post is None:
-        return None
+        raise HTTPException(status_code=404, detail="Post not found")
     db.delete(post)
     db.commit()
-    return None
+    return {"status": "deleted"}
