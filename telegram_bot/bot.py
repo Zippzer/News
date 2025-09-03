@@ -7,7 +7,6 @@ from keyboards import get_main_menu
 from handlers.create_post import create_router
 
 
-
 load_dotenv()
 API_TOKEN = os.getenv('TOKEN_BOT')
 

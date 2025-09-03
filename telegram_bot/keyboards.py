@@ -5,7 +5,6 @@ def get_main_menu():
     builder = ReplyKeyboardBuilder()
     builder.add(
         KeyboardButton(text="Создать пост"),
-        KeyboardButton(text="Отредактировать пост"),
         KeyboardButton(text="Удалить пост"),
         KeyboardButton(text="Обновить пост")
     )
