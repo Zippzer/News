@@ -6,3 +6,10 @@ class Post(StatesGroup):
     dashboard_url = State()
     indicators = State()
     date = State()
+
+
+
+class UpdatePost(StatesGroup):
+    waiting_field_value = State()
+
+

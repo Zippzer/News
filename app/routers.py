@@ -22,7 +22,7 @@ async def create_post_endpoint(post:Posts, db: Session = Depends(get_db)):
     return create_post(db, post.dict())
 
 
-@router.put("/update/{post_id}")
+@router.patch("/update/{post_id}")
 async def up_post(post_id: int, post: UpdatePost, db: Session = Depends(get_db)):
     return update_post(db, post_id, post.dict(exclude_unset=True))
 
